@@ -18,6 +18,10 @@ import ListItemText from "@material-ui/core/ListItemText";
 import InboxIcon from "@material-ui/icons/MoveToInbox";
 import MailIcon from "@material-ui/icons/Mail";
 
+import { Link } from "react-router-dom";
+import HomeIcon from "@material-ui/icons/Home";
+import BookIcon from "@material-ui/icons/Book";
+
 const drawerWidth = 240;
 
 const useStyles = makeStyles(theme => ({
@@ -45,6 +49,18 @@ const useStyles = makeStyles(theme => ({
   hide: {
     display: "none"
   },
+  link: {
+    textDecoration: "none",
+    color: "black",
+    "&:active": {
+      color: "black",
+      textDecoration: "none"
+    },
+    "&:hover": {
+      color: "black",
+      textDecoration: "none"
+    }
+  },
   drawer: {
     width: drawerWidth,
     flexShrink: 0,
@@ -65,7 +81,7 @@ const useStyles = makeStyles(theme => ({
     overflowX: "hidden",
     width: theme.spacing(7) + 1,
     [theme.breakpoints.up("sm")]: {
-      width: theme.spacing(9) + 1
+      width: theme.spacing(8) + 1
     }
   },
   toolbar: {
@@ -144,26 +160,32 @@ export default function MiniDrawer(props) {
         </div>
         <Divider />
         <List>
-          {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-            <ListItem button key={text}>
+          <Link to="/" onClick={handleDrawerClose} className={classes.link}>
+            <ListItem button>
               <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                <HomeIcon />
               </ListItemIcon>
-              <ListItemText primary={text} />
+              <ListItemText primary="Products" />
             </ListItem>
-          ))}
+          </Link>
+          <Link to="/" onClick={handleDrawerClose} className={classes.link}>
+            <ListItem button>
+              <ListItemIcon>
+                <BookIcon />
+              </ListItemIcon>
+              <ListItemText primary="Expences" />
+            </ListItem>
+          </Link>
+          <Link to="/" onClick={handleDrawerClose} className={classes.link}>
+            <ListItem button>
+              <ListItemIcon>
+                <InboxIcon />
+              </ListItemIcon>
+              <ListItemText primary="Administration" />
+            </ListItem>
+          </Link>
         </List>
         <Divider />
-        <List>
-          {["All mail", "Trash", "Spam"].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List>
       </Drawer>
       <main className={classes.content}>
         <div className={classes.toolbar} />
