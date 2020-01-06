@@ -171,6 +171,14 @@ export default function MiniDrawer(props) {
           <Link to="/" onClick={handleDrawerClose} className={classes.link}>
             <ListItem button>
               <ListItemIcon>
+                <MailIcon />
+              </ListItemIcon>
+              <ListItemText primary="Tables" />
+            </ListItem>
+          </Link>
+          <Link to="/" onClick={handleDrawerClose} className={classes.link}>
+            <ListItem button>
+              <ListItemIcon>
                 <BookIcon />
               </ListItemIcon>
               <ListItemText primary="Expences" />
