@@ -8,13 +8,15 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import { get } from "../../utils/dataTransfer";
+import Ticket from "./Ticket";
 
 class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
       value: 0,
-      categories: []
+      categories: [],
+      ticket: []
     };
   }
 
@@ -26,6 +28,12 @@ class Home extends Component {
 
   handleChange = (event, value) => {
     this.setState({ value });
+  };
+
+  handleProductClick = value => {
+    this.setState({
+      ticket: [...this.state.ticket, value]
+    });
   };
 
   render() {
@@ -57,7 +65,11 @@ class Home extends Component {
           categories[value].products.length > 0 ? (
             <div className={`row mt-3 ${classes.container}`}>
               {categories[value].products.map(product => (
-                <div className={`col-sm-3 ${classes.card}`} key={product.id}>
+                <div
+                  className={`col-sm-3 ${classes.card}`}
+                  onClick={e => this.handleProductClick(product)}
+                  key={product.id}
+                >
                   <Card className={classes.card}>
                     <CardContent className="d-flex flex-column h-100 justify-content-between">
                       <Typography gutterBottom variant="h5" component="h2">
@@ -75,7 +87,9 @@ class Home extends Component {
             <div>U ovoj kategoriji nema prozvoda.</div>
           )}
         </div>
-        <div className="col-sm-4"></div>
+        <div className="col-sm-4">
+          <Ticket data={this.state.ticket} />
+        </div>
       </div>
     );
   }
