@@ -54,6 +54,35 @@ class Home extends Component {
     });
   };
 
+  handleDelete(e) {
+    let index = null;
+    for (let el in this.state.ticket) {
+      if (this.state.ticket[el].name == e) {
+        index = el;
+        break;
+      }
+    }
+    this.state.ticket.splice(index, 1);
+    let ticket = this.state.ticket;
+
+    let transformedData = {};
+    ticket.forEach(product => {
+      if (product.name in transformedData) {
+        transformedData[product.name] += 1;
+      } else {
+        transformedData[product.name] = 1;
+      }
+    });
+
+    const sum = ticket.reduce((a, b) => a + (b.price || 0), 0);
+
+    this.setState({
+      ticket: ticket,
+      transformed: Object.entries(transformedData),
+      sum: sum
+    });
+  }
+
   render() {
     const { value, categories } = this.state;
     const { classes } = this.props;
@@ -106,7 +135,10 @@ class Home extends Component {
           )}
         </div>
         <div className="col-sm-4">
-          <Ticket data={this.state} />
+          <Ticket
+            data={this.state}
+            handleDelete={this.handleDelete.bind(this)}
+          />
         </div>
       </div>
     );

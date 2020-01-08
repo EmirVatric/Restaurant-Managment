@@ -26,6 +26,10 @@ class Ticket extends Component {
     }
   }
 
+  handleClick(product) {
+    this.props.handleDelete(product);
+  }
+
   render() {
     const { transformed } = this.state;
     const { classes } = this.props;
@@ -39,9 +43,15 @@ class Ticket extends Component {
             aria-label="contacts"
           >
             {transformed.map((product, index) => (
-              <ListItem button key={index} className="border-bottom w-100 m-0">
-                <ListItemText primary={`${product[1]}x`} />
-                <ListItemText primary={product[0]} />
+              <ListItem
+                button
+                key={index}
+                name={product}
+                className="border-bottom w-100 m-0"
+                onClick={e => this.handleClick(product[0])}
+              >
+                <ListItemText name="emir" primary={`${product[1]}x`} />
+                <ListItemText name={product} primary={product[0]} />
               </ListItem>
             ))}
             <ListItem
