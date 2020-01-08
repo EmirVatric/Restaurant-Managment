@@ -16,7 +16,9 @@ class Home extends Component {
     this.state = {
       value: 0,
       categories: [],
-      ticket: []
+      ticket: [],
+      transformed: [],
+      sum: 0
     };
   }
 
@@ -31,8 +33,24 @@ class Home extends Component {
   };
 
   handleProductClick = value => {
+    let transformedData = {};
+    [...this.state.ticket, value].forEach(product => {
+      if (product.name in transformedData) {
+        transformedData[product.name] += 1;
+      } else {
+        transformedData[product.name] = 1;
+      }
+    });
+
+    const sum = [...this.state.ticket, value].reduce(
+      (a, b) => a + (b.price || 0),
+      0
+    );
+
     this.setState({
-      ticket: [...this.state.ticket, value]
+      ticket: [...this.state.ticket, value],
+      transformed: Object.entries(transformedData),
+      sum: sum
     });
   };
 
@@ -88,7 +106,7 @@ class Home extends Component {
           )}
         </div>
         <div className="col-sm-4">
-          <Ticket data={this.state.ticket} />
+          <Ticket data={this.state} />
         </div>
       </div>
     );
