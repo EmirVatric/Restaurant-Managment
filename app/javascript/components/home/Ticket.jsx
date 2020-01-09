@@ -1,20 +1,29 @@
 import React, { Component } from "react";
 import { withStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
+import Button from "@material-ui/core/Button";
 
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
+
+import AppBar from "@material-ui/core/AppBar";
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
 
 class Ticket extends Component {
   constructor(props) {
     super(props);
     this.state = {
       data: [],
+      value: 0,
       transformed: [],
       sum: 0
     };
   }
+  handleChange = (event, value) => {
+    this.setState({ value });
+  };
 
   componentDidUpdate(prevProps) {
     const { ticket, transformed, sum } = this.props.data;
@@ -33,9 +42,8 @@ class Ticket extends Component {
   }
 
   render() {
-    const { transformed } = this.state;
+    const { transformed, sum, value } = this.state;
     const { classes } = this.props;
-    const { sum } = this.state;
     return (
       <div className="shadow p-0">
         {transformed.length > 0 ? (
@@ -62,6 +70,24 @@ class Ticket extends Component {
             >
               <ListItemText primary={`Total: ${sum} KM`} />
             </ListItem>
+            <AppBar position="static" color="default" className="shadow-none">
+              <Tabs
+                value={value}
+                onChange={this.handleChange}
+                indicatorColor="primary"
+                textColor="primary"
+                variant="scrollable"
+                scrollButtons="auto"
+                aria-label="full width tabs example"
+              >
+                <Tab label="Prozemlje" className={classes.tab} />
+                <Tab label="Dostava" className={classes.tab} />
+                <Tab label="Sprat" className={classes.tab} />
+              </Tabs>
+            </AppBar>
+            <Button color="primary" className="w-100 p-3">
+              Make an Order
+            </Button>
           </List>
         ) : null}
       </div>
@@ -79,6 +105,11 @@ const classes = theme => ({
     "&:hover": {
       backgroundColor: theme.palette.primary.main,
       color: "white"
+    }
+  },
+  tab: {
+    "&:focus": {
+      outline: "none"
     }
   }
 });
