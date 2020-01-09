@@ -17,11 +17,13 @@ class Ticket extends Component {
   }
 
   componentDidUpdate(prevProps) {
+    const { ticket, transformed, sum } = this.props.data;
+
     if (prevProps.data !== this.props.data) {
       this.setState({
-        data: this.props.data.ticket,
-        transformed: this.props.data.transformed,
-        sum: this.props.data.sum
+        data: ticket,
+        transformed: transformed,
+        sum: sum
       });
     }
   }

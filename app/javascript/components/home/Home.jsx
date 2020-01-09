@@ -32,25 +32,34 @@ class Home extends Component {
     this.setState({ value });
   };
 
-  handleProductClick = value => {
+  sumChange(arr) {
+    const sum = arr.reduce((a, b) => a + (b.price || 0), 0);
+
+    this.setState({
+      sum: sum
+    });
+  }
+
+  transformedData(data) {
     let transformedData = {};
-    [...this.state.ticket, value].forEach(product => {
+    data.forEach(product => {
       if (product.name in transformedData) {
         transformedData[product.name] += 1;
       } else {
         transformedData[product.name] = 1;
       }
     });
+    this.setState({
+      transformed: Object.entries(transformedData)
+    });
+  }
 
-    const sum = [...this.state.ticket, value].reduce(
-      (a, b) => a + (b.price || 0),
-      0
-    );
+  handleProductClick = value => {
+    this.transformedData([...this.state.ticket, value]);
+    this.sumChange([...this.state.ticket, value]);
 
     this.setState({
-      ticket: [...this.state.ticket, value],
-      transformed: Object.entries(transformedData),
-      sum: sum
+      ticket: [...this.state.ticket, value]
     });
   };
 
@@ -65,21 +74,11 @@ class Home extends Component {
     this.state.ticket.splice(index, 1);
     let ticket = this.state.ticket;
 
-    let transformedData = {};
-    ticket.forEach(product => {
-      if (product.name in transformedData) {
-        transformedData[product.name] += 1;
-      } else {
-        transformedData[product.name] = 1;
-      }
-    });
-
-    const sum = ticket.reduce((a, b) => a + (b.price || 0), 0);
+    this.transformedData(ticket);
+    this.sumChange(ticket);
 
     this.setState({
-      ticket: ticket,
-      transformed: Object.entries(transformedData),
-      sum: sum
+      ticket: ticket
     });
   }
 
