@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_06_183411) do
+ActiveRecord::Schema.define(version: 2020_01_11_130855) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,6 +26,26 @@ ActiveRecord::Schema.define(version: 2020_01_06_183411) do
     t.text "declaration"
     t.float "price"
     t.integer "category_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "ticket_product_managers", force: :cascade do |t|
+    t.bigint "ticket_id"
+    t.bigint "product_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["product_id"], name: "index_ticket_product_managers_on_product_id"
+    t.index ["ticket_id"], name: "index_ticket_product_managers_on_ticket_id"
+  end
+
+  create_table "tickets", force: :cascade do |t|
+    t.string "comment"
+    t.boolean "kitchen_status"
+    t.boolean "waiter_status"
+    t.boolean "delivery"
+    t.boolean "urgent"
+    t.integer "user_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

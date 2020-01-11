@@ -11,6 +11,8 @@ import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 
+import { post } from "../../utils/dataTransfer";
+
 class Ticket extends Component {
   constructor(props) {
     super(props);
@@ -39,6 +41,12 @@ class Ticket extends Component {
 
   handleClick(product) {
     this.props.handleDelete(product);
+  }
+
+  handleSubmit(e) {
+    e.preventDefault();
+    const ticket = { ticket: this.state.data };
+    post("/api/tickets", ticket);
   }
 
   render() {
@@ -85,7 +93,11 @@ class Ticket extends Component {
                 <Tab label="Sprat" className={classes.tab} />
               </Tabs>
             </AppBar>
-            <Button color="primary" className="w-100 p-3">
+            <Button
+              color="primary"
+              className="w-100 p-3"
+              onClick={e => this.handleSubmit(e)}
+            >
               Make an Order
             </Button>
           </List>
