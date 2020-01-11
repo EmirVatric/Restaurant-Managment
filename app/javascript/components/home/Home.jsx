@@ -82,6 +82,14 @@ class Home extends Component {
     });
   }
 
+  handleTicketSubmitted() {
+    this.setState({
+      ticket: [],
+      transformed: [],
+      sum: 0
+    });
+  }
+
   render() {
     const { value, categories } = this.state;
     const { classes } = this.props;
@@ -137,6 +145,7 @@ class Home extends Component {
           <Ticket
             data={this.state}
             handleDelete={this.handleDelete.bind(this)}
+            handleTicketSubmitted={this.handleTicketSubmitted.bind(this)}
           />
         </div>
       </div>

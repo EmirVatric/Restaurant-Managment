@@ -45,8 +45,12 @@ class Ticket extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    const ticket = { ticket: this.state.data };
-    post("/api/tickets", ticket);
+    const ticket = { products: this.state.data, delivery: this.state.value };
+    post("/api/tickets", ticket, ticket).then(res => {
+      if (res.status == "created") {
+        this.props.handleTicketSubmitted();
+      }
+    });
   }
 
   render() {
@@ -84,13 +88,11 @@ class Ticket extends Component {
                 onChange={this.handleChange}
                 indicatorColor="primary"
                 textColor="primary"
-                variant="scrollable"
-                scrollButtons="auto"
+                variant="fullWidth"
                 aria-label="full width tabs example"
               >
-                <Tab label="Prozemlje" className={classes.tab} />
+                <Tab label="Sala" className={classes.tab} />
                 <Tab label="Dostava" className={classes.tab} />
-                <Tab label="Sprat" className={classes.tab} />
               </Tabs>
             </AppBar>
             <Button
