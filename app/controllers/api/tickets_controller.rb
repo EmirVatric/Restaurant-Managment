@@ -20,7 +20,7 @@ class Api::TicketsController < ApplicationController
       }
     else
       render json: {
-        status: 500,
+        status: :bad_request,
         errors: ticket.errors.full_messages
       }
     end
