@@ -1,5 +1,17 @@
 class Api::TicketsController < ApplicationController
   skip_before_action :verify_authenticity_token
+  def index
+    render json: {
+      status: :ok,
+      data: Ticket.all.as_json(
+        only: %i[created_at, id],
+        include: {
+          products: { only: %i[name] }
+        }
+      )
+    }
+  end
+
   def create
     ticket = Ticket.new(delivery: ticket_params[:delivery])
     ticket_params[:products].each do |prod|
@@ -14,6 +26,12 @@ class Api::TicketsController < ApplicationController
     end
 
     if ticket.save
+      ActionCable.server.broadcast 'kitchen_channel', ticket.as_json(
+        only: %i[created_at, id],
+        include: {
+          products: { only: %i[name] }
+        }
+      )
       render json: {
         status: :created,
         ticket: ticket.products
