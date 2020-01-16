@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import { withStyles } from "@material-ui/core/styles";
 import consumer from "../../channels/consumer";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
 
 import { get } from "../../utils/dataTransfer";
 
@@ -36,6 +39,7 @@ class Kitchen extends Component {
       });
       data.push({
         id: ticket.id,
+        delivery: ticket.delivery,
         products: Object.entries(transformedData)
       });
     });
@@ -72,15 +76,24 @@ class Kitchen extends Component {
     return (
       <div>
         {this.state.transposedData.length > 0 ? (
-          <div className="row">
+          <div className="row mt-3">
             {this.state.transposedData.map(ticket => (
-              <div key={ticket.id} className="col-sm-3">
-                {ticket.products.map((product, index) => (
-                  <div key={index}>
-                    <span>{product[1]} x </span>
-                    <span>{product[0]}</span>
-                  </div>
-                ))}
+              <div className="p-1 col-sm-3">
+                <List
+                  key={ticket.id}
+                  className={`${classes.root} ${
+                    ticket.delivery == null || ticket.delivery == false
+                      ? "bg-primary"
+                      : "bg-warning"
+                  }  p-0 rounded`}
+                >
+                  {ticket.products.map((product, index) => (
+                    <ListItem key={index} className="border-bottom w-100 m-0">
+                      <ListItemText name="emir" primary={`${product[1]}x`} />
+                      <ListItemText name={product} primary={product[0]} />
+                    </ListItem>
+                  ))}
+                </List>
               </div>
             ))}
           </div>
@@ -91,8 +104,10 @@ class Kitchen extends Component {
 }
 
 const classes = theme => ({
-  root: {
-    width: "100%"
+  house: {
+    height: "auto",
+    display: "flex",
+    flexDirection: "column"
   }
 });
 
