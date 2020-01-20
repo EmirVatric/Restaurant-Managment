@@ -5,7 +5,7 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 
-import { get } from "../../utils/dataTransfer";
+import { get, del } from "../../utils/dataTransfer";
 
 class Kitchen extends Component {
   constructor(props) {
@@ -71,6 +71,19 @@ class Kitchen extends Component {
     });
   }
 
+  handleRemoveTicket(ticket) {
+    del(`/api/tickets/${ticket.id}`).then(res => {
+      this.setState(
+        {
+          tickets: res.data
+        },
+        () => {
+          this.transposeTicket(res.data);
+        }
+      );
+    });
+  }
+
   render() {
     const { classes } = this.props;
     return (
@@ -78,9 +91,12 @@ class Kitchen extends Component {
         {this.state.transposedData.length > 0 ? (
           <div className="row mt-3">
             {this.state.transposedData.map(ticket => (
-              <div className="p-1 col-sm-3">
+              <div
+                className="p-1 col-sm-3"
+                key={ticket.id}
+                onClick={event => this.handleRemoveTicket(ticket)}
+              >
                 <List
-                  key={ticket.id}
                   className={`${classes.root} ${
                     ticket.delivery == null || ticket.delivery == false
                       ? "bg-primary"
@@ -89,8 +105,8 @@ class Kitchen extends Component {
                 >
                   {ticket.products.map((product, index) => (
                     <ListItem key={index} className="border-bottom w-100 m-0">
-                      <ListItemText name="emir" primary={`${product[1]}x`} />
-                      <ListItemText name={product} primary={product[0]} />
+                      <ListItemText primary={`${product[1]}x`} />
+                      <ListItemText primary={product[0]} />
                     </ListItem>
                   ))}
                 </List>

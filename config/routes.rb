@@ -3,7 +3,7 @@ Rails.application.routes.draw do
 
   namespace :api do
     resources :categories, only: [:index]
-    resources :tickets, only: [:index, :create, :update]
+    resources :tickets, only: [:index, :create, :update, :destroy]
   end
   mount ActionCable.server, at: '/cable'
   get '*path', to: 'homepage#index'

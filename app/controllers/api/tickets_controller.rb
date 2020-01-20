@@ -4,7 +4,6 @@ class Api::TicketsController < ApplicationController
     render json: {
       status: :ok,
       data: Ticket.all.as_json(
-        only: %i[created_at, id, delivery],
         include: {
           products: { only: %i[name] }
         }
@@ -27,7 +26,6 @@ class Api::TicketsController < ApplicationController
 
     if ticket.save
       ActionCable.server.broadcast 'kitchen_channel', ticket.as_json(
-        only: %i[created_at, id, delivery],
         include: {
           products: { only: %i[name] }
         }
@@ -42,6 +40,27 @@ class Api::TicketsController < ApplicationController
         errors: ticket.errors.full_messages
       }
     end
+  end
+
+  def destroy
+    ticket = Ticket.find(params[:id])
+
+    if ticket.destroy
+      render json: {
+        status: :ok,
+        data: Ticket.all.as_json(
+          include: {
+            products: { only: %i[name] }
+          }
+        )
+      }
+    else
+      render json: {
+        status: :bad_request,
+        errors: "This ticket doesn't exsists"
+      }
+    end
+
   end
 
   private

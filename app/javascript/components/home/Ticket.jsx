@@ -72,7 +72,7 @@ class Ticket extends Component {
                 className="border-bottom w-100 m-0"
                 onClick={e => this.handleClick(product[0])}
               >
-                <ListItemText name="emir" primary={`${product[1]}x`} />
+                <ListItemText primary={`${product[1]}x`} />
                 <ListItemText name={product} primary={product[0]} />
               </ListItem>
             ))}
