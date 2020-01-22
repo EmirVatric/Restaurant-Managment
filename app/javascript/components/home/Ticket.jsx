@@ -20,7 +20,8 @@ class Ticket extends Component {
       data: [],
       value: 0,
       transformed: [],
-      sum: 0
+      sum: 0,
+      buttonState: false
     };
   }
   handleChange = (event, value) => {
@@ -45,11 +46,17 @@ class Ticket extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
+    this.setState({
+      buttonState: true
+    });
     const ticket = { products: this.state.data, delivery: this.state.value };
     post("/api/tickets", ticket, ticket).then(res => {
       if (res.status == "created") {
         this.props.handleTicketSubmitted();
       }
+      this.setState({
+        buttonState: false
+      });
     });
   }
 
@@ -98,6 +105,7 @@ class Ticket extends Component {
             <Button
               color="primary"
               className="w-100 p-3"
+              disabled={this.state.buttonState}
               onClick={e => this.handleSubmit(e)}
             >
               Make an Order
