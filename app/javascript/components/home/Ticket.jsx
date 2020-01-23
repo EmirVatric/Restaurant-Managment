@@ -64,7 +64,7 @@ class Ticket extends Component {
     const { transformed, sum, value } = this.state;
     const { classes } = this.props;
     return (
-      <div className="shadow p-0">
+      <div className="shadow p-0 position-fixed">
         {transformed.length > 0 ? (
           <List
             component="nav"
