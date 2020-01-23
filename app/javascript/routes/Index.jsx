@@ -6,11 +6,17 @@ import Kitchen from "../components/kitchen/Index";
 
 export default (
   <Router>
-    <Navbar>
-      <Switch>
-        <Route path="/" exact component={Home} />
-        <Route path="/kitchen" exact component={Kitchen} />
-      </Switch>
-    </Navbar>
+    <Switch>
+      <Route
+        path="/"
+        exact
+        render={() => (
+          <Navbar>
+            <Home />
+          </Navbar>
+        )}
+      />
+      <Route path="/kitchen" exact component={Kitchen} />
+    </Switch>
   </Router>
 );

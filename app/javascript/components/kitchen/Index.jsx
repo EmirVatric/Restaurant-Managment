@@ -87,7 +87,7 @@ class Kitchen extends Component {
   render() {
     const { classes } = this.props;
     return (
-      <div>
+      <div className={classes.root}>
         {this.state.transposedData.length > 0 ? (
           <div className="row mt-3">
             {this.state.transposedData.map(ticket => (
@@ -97,14 +97,14 @@ class Kitchen extends Component {
                 onClick={event => this.handleRemoveTicket(ticket)}
               >
                 <List
-                  className={`${classes.root} ${
+                  className={`${
                     ticket.delivery == null || ticket.delivery == false
                       ? "bg-primary"
                       : "bg-warning"
                   }  p-0 rounded`}
                 >
                   {ticket.products.map((product, index) => (
-                    <ListItem key={index} className="border-bottom w-100 m-0">
+                    <ListItem key={index} className="w-100 m-0">
                       <ListItemText primary={`${product[1]}x`} />
                       <ListItemText primary={product[0]} />
                     </ListItem>
@@ -120,6 +120,12 @@ class Kitchen extends Component {
 }
 
 const classes = theme => ({
+  root: {
+    background: "gray",
+    padding: "2%",
+    minWidth: "100vw",
+    minHeight: "100vh"
+  },
   house: {
     height: "auto",
     display: "flex",
